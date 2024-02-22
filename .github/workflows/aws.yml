@@ -24,17 +24,17 @@
 #    See the documentation for each action used below for the recommended IAM policies for this IAM user,
 #    and best practices on handling the access key credentials.
 
-name: Deploy to Amazon ECS
+name: Upload Website
 
 on:
   push:
-    branches: [ "main" ]
-
-permissions:
-  contents: read
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
 
 jobs:
-  runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -47,7 +47,7 @@ jobs:
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.HOST}}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          TARGET: "/home/ubuntu/backend
+          TARGET: "/home/ubuntu/back-end"
         
       - name: run application 
         uses: appleboy/ssh-action@v1.0.3
@@ -56,3 +56,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: ./gradlew test
+            
