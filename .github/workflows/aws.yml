@@ -43,7 +43,7 @@ jobs:
       - name: Deploy to my EC2 instance
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
           SOURCE: "./"
           REMOTE_HOST: ${{ secrets.HOST}}
           REMOTE_USER: ${{ secrets.USERNAME }}
@@ -54,6 +54,5 @@ jobs:
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          script: ./gradlew run
+          key: ${{ secrets.SSH_KEY }}
+          script: ./gradlew test
