@@ -45,16 +45,16 @@ jobs:
         uses: easingthemes/ssh-deploy@v2.1.5
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_KEY }}
-          SOURCE: ""
+          SOURCE: "./"
           REMOTE_HOST: ${{ secrets.HOST}}
           REMOTE_USER: ${{ secrets.USERNAME }}
           TARGET: "/home/ubuntu/back-end"
         
-      - name: run application 
+      - name: run application
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
           script: ./gradlew test
-            
+#
