@@ -34,21 +34,26 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - run: ./gradlew test
-    
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@5.1
+      - name: Deploy to my EC2 instance
+        uses: easingthemes/ssh-deploy@v2.1.5
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.KEY }}
+          SOURCE: "./"
+          REMOTE_HOST: ${{ secrets.HOST}}
+          REMOTE_USER: ${{ secrets.USERNAME }}
+          TARGET: "/home/ubuntu/backend
+        
+      - name: run application 
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          switches: -avzr --delete
-          path: ./*
-          remote_path: /var/lunch-reserver/backend
-          remote_host: ec2-52-91-42-232.compute-1.amazonaws.com/uat
-          remote_user: ubuntu
-          remote_key: "${{ secrets.SSH_KEY }}"
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: ./gradlew run
