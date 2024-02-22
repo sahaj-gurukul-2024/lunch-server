@@ -33,7 +33,7 @@ application {
     mainClass.set("com.application.ApplicationKt")
 }
 java {
-    sourceCompatibility = JavaVersion.toVersion("21")
+    sourceCompatibility = JavaVersion.toVersion("17")
 }
 
 
@@ -63,7 +63,7 @@ tasks.named<io.micronaut.gradle.docker.MicronautDockerfile>("dockerfile") {
 }
 
 tasks.named<io.micronaut.gradle.docker.NativeImageDockerfile>("dockerfileNative") {
-    jdkVersion.set("21")
+    jdkVersion.set("17")
 }
 
 
